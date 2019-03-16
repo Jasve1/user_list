@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/app.js',
@@ -6,21 +7,51 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  watch: true,
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "main.css",
+    })
+  ],
   module: {
-    rules: [{
+    rules: [
+      {
+        test: /.js/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: `jshint-loader`
+          }
+        ]
+      }
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
         test: /\.s?css$/,
         use: [
           {
-          loader: "style-loader"
-          }, 
-          {
-          loader: "css-loader"
-          }, 
-          {
-          loader: "sass-loader",
-          }
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../dist'
+            }
+          },
+          "css-loader",
+          "sass-loader"
         ]
-    }]
-  }
+      }
+    ]
+  },
+  watch: true
 };
