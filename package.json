@@ -2,9 +2,10 @@
   "name": "new_project",
   "version": "1.0.0",
   "description": "Javascript project template using webpack",
-  "main": "app.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/Jasve1/new_project/issues"
   },
-  "homepage": "https://github.com/Jasve1/new_project#readme"
+  "homepage": "https://github.com/Jasve1/new_project#readme",
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
 }
