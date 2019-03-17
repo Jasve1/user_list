@@ -18,14 +18,43 @@ body{
 
     $circle: radial-gradient(#e66465 67%, transparent 68%);
 
-    background: $circle, $circle, $circle white;
+    background: $circle, $circle white;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-position: 50% 20%, 85% 95%, 15% 95%;
+    background-position: 50% 20%, 50% 50%;
     filter: blur(3px) contrast(9);
 
     &:hover{
-        background-position: 50% -10%, 50% 65%, 50% 65%;
-        background-size:10% 10%, 40% 45%, 40% 45%;
+        animation-name: blob;
+        animation-duration: 1s;
+        background-position: 50% -16%, 50% 50%;
+        background-size: 5% 5%, 45% 45%;
+    }
+}
+
+@keyframes blob {
+    0%{
+        background-size: 100% 100%;
+        background-position: 50% 20%, 50% 50%;
+    }
+    30%{
+        background-position: 50% 0%, 50% 50%;
+        background-size: 30% 70%, 30% 70%;
+    }
+    60%{
+        background-position: 50% -4%, 50% 50%;
+        background-size: 7% 3%, 55% 35%;
+    }
+    80%{
+        background-position: 50% -8%, 50% 50%;
+        background-size: 9% 1%, 30% 60%;
+    }
+    90%{
+        background-position: 50% -12%, 50% 50%;
+        background-size: 6% 4%, 50% 40%;
+    }
+    100%{
+        background-position: 50% -16%, 50% 50%;
+        background-size: 5% 5%, 45% 45%;
     }
 }

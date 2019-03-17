@@ -11,13 +11,57 @@ body h1 {
   margin: auto;
   margin-top: 10vh;
   transition: ease-in-out 1s;
-  background: radial-gradient(#e66465 67%, transparent 68%), radial-gradient(#e66465 67%, transparent 68%), radial-gradient(#e66465 67%, transparent 68%) white;
+  background: radial-gradient(#e66465 67%, transparent 68%), radial-gradient(#e66465 67%, transparent 68%) white;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-position: 50% 20%, 85% 95%, 15% 95%;
+  background-position: 50% 20%, 50% 50%;
   -webkit-filter: blur(3px) contrast(9);
   filter: blur(3px) contrast(9); }
   .circle:hover {
-    background-position: 50% -10%, 50% 65%, 50% 65%;
-    background-size: 10% 10%, 40% 45%, 40% 45%; }
+    -webkit-animation-name: blob;
+    animation-name: blob;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    background-position: 50% -16%, 50% 50%;
+    background-size: 5% 5%, 45% 45%; }
+
+@-webkit-keyframes blob {
+  0% {
+    background-size: 100% 100%;
+    background-position: 50% 20%, 50% 50%; }
+  30% {
+    background-position: 50% 0%, 50% 50%;
+    background-size: 30% 70%, 30% 70%; }
+  60% {
+    background-position: 50% -4%, 50% 50%;
+    background-size: 7% 3%, 55% 35%; }
+  80% {
+    background-position: 50% -8%, 50% 50%;
+    background-size: 9% 1%, 30% 60%; }
+  90% {
+    background-position: 50% -12%, 50% 50%;
+    background-size: 6% 4%, 50% 40%; }
+  100% {
+    background-position: 50% -16%, 50% 50%;
+    background-size: 5% 5%, 45% 45%; } }
+
+@keyframes blob {
+  0% {
+    background-size: 100% 100%;
+    background-position: 50% 20%, 50% 50%; }
+  30% {
+    background-position: 50% 0%, 50% 50%;
+    background-size: 30% 70%, 30% 70%; }
+  60% {
+    background-position: 50% -4%, 50% 50%;
+    background-size: 7% 3%, 55% 35%; }
+  80% {
+    background-position: 50% -8%, 50% 50%;
+    background-size: 9% 1%, 30% 60%; }
+  90% {
+    background-position: 50% -12%, 50% 50%;
+    background-size: 6% 4%, 50% 40%; }
+  100% {
+    background-position: 50% -16%, 50% 50%;
+    background-size: 5% 5%, 45% 45%; } }
 
