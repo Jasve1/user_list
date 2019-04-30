@@ -1,5 +1,5 @@
 {
-  "name": "new_project",
+  "name": "user_list",
   "version": "1.0.0",
   "description": "Javascript project template using webpack",
   "private": true,
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jasve1/new_project.git"
+    "url": "git+https://github.com/Jasve1/user_list.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Jasve1/new_project/issues"
+    "url": "https://github.com/Jasve1/user_list/issues"
   },
-  "homepage": "https://github.com/Jasve1/new_project#readme",
+  "homepage": "https://github.com/Jasve1/user_list#readme",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
