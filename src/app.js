@@ -1,62 +1,152 @@
 import "./styles/style.scss"
+import "regenerator-runtime"
 
-console.log("hello world");
+//Utils
+import utils from "./utils";
 
-//Make the DIV element draggagle:
-dragElement(document.getElementById("main-nav"));
-    
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
-  }
+const url = 'https://randomuser.me/api/?results=100';
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
+const main = document.querySelector('main');
 
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
+let isloading = true;
 
-    if(elmnt.offsetTop < 0){
-      pos2 = 0;
-      elmnt.style.top = 0;
-      document.onmousemove = null;
-    }else if (elmnt.offsetTop > (window.innerHeight - (elmnt.offsetHeight * 1.1))){
-      pos2 = 0;
-      elmnt.style.top = (window.innerHeight - (elmnt.offsetHeight * 1.1)) + "px"
-      document.onmousemove = null;
-    }else{
-      // calculate the new cursor position:
-      pos2 = pos4 - e.clientY;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+let loading = utils.createElm('h2', 'loading...');
+utils.append(main, loading);
+
+async function getUsers(){
+    fetch(url)
+    .then(res => res.json())
+    .then(json => {
+        isloading = false;
+        populateUsers(json.results);
+    })
+    .catch(() => {
+        utils.remove(main, loading);
+        let error = utils.createElm('h2', 'No users where found');
+        utils.append(main, error);
+    })
+}
+
+function populateUsers(users){
+    if(!isloading){
+        utils.remove(main, loading);
+        users.map(user => {
+            createUser(user);
+        });
     }
-  
-  }
-
-  function closeDragElement() {
-    /* stop moving when mouse button is released:*/
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
 }
 
+function createUser(user){
+    //User info
+    let name = `${utils.firstUpperCase(user.name.first)} ${utils.firstUpperCase(user.name.last)}`;
+    let thumbnailSrc = user.picture.thumbnail;
+    let gender = user.gender;
+    let contactInfo = [
+        {
+            title: 'Phone Nr.:',
+            text: user.phone
+        }, 
+        {
+            title: 'Email:',
+            text: user.email
+        }
+    ];
 
-const menuElm = document.querySelector("#main-navheader");
+    //DOM Elements
+    const article = utils.createNode('article');
+    article.setAttribute('class', 'user');
+    const header = utils.createNode('header');
+    const footer = utils.createNode('footer');
 
-menuElm.onclick = function() {
-    menuElm.classList.toggle("clicked");
+    //Name
+    let nameNode = utils.createElm('h2', name);
+
+    //Gender
+    let genderNode = utils.createElm('i', gender);
+    genderNode.setAttribute('class', 'desktop');
+
+    //ContactInfo
+    let contactList = utils.createList(contactInfo);
+    contactList.setAttribute('class', 'desktop');
+
+    //Thumbnail
+    const img = utils.createNode('img');
+    img.setAttribute('src', thumbnailSrc); 
+
+    utils.append(main, article);
+    utils.append(article, [header, footer]);
+    utils.append(header, [img, nameNode, genderNode]);
+    utils.append(footer, contactList);
+
+    header.onclick = function(e){
+        e.preventDefault();
+        showMore(user);
+    }
+    
 }
+
+function showMore(user){
+    //User info
+    let name = `${utils.firstUpperCase(user.name.first)} ${utils.firstUpperCase(user.name.last)}`;
+    let medImageSrc = user.picture.medium;
+    let gender = user.gender;
+    let username = `Username: ${user.login.username}`;
+    let address = `${user.location.street}, ${user.location.postcode} ${user.location.city}`;
+    let timezone = `UTC ${user.location.timezone.offset}, ${user.location.timezone.description}`;
+    let contactInfo = [
+        {
+            title: 'Phone Nr.:',
+            text: user.phone
+        }, 
+        {
+            title: 'Email:',
+            text: user.email
+        }, 
+        {
+            title: 'Adress:',
+            text: address
+        }, 
+        {
+            title: 'Timezone',
+            text: timezone
+        }
+    ];
+
+    //DOM Elements
+    const userDetails = utils.createNode('div');
+    userDetails.setAttribute('class', 'show');
+    const header = utils.createNode('header');
+    const overlay = utils.createNode('div');
+    overlay.setAttribute('id', 'overlay');
+    const exit = utils.createElm('span', 'X');
+    exit.setAttribute('id', 'exit');
+
+    //Name 
+    let nameNode = utils.createElm('h2', name);
+
+    //Username
+    let usernameNode = utils.createElm('h3', username)
+
+    //Gender
+    let genderNode = utils.createElm('i', gender);
+
+    //Image
+    const img = utils.createNode('img');
+    img.setAttribute('src', medImageSrc);
+
+    //Contact Info
+    const contactInfoNode = utils.createList(contactInfo);
+
+    utils.append(header, [img, nameNode, usernameNode, genderNode]);
+    utils.append(userDetails, [header, exit, contactInfoNode]);
+    utils.append(main, [userDetails, overlay]);
+
+    //Remove extra content again
+    overlay.onclick = remove;
+    exit.onclick = remove;
+    function remove(){
+        utils.remove(main, [userDetails, overlay]);
+    }
+}
+
+getUsers();
