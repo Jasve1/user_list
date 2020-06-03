@@ -62,6 +62,5 @@ module.exports = {
       }
     ]
   },
-  devtool: 'hidden-source-map',
-  watch: true
+  devtool: 'hidden-source-map'
 };
